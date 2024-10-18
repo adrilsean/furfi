@@ -89,7 +89,7 @@ $(document).ready(() => {
   foods["adult"].forEach((adultFood) => {
     const text = `${adultFood["brand"]} ₱${adultFood["price"]}/kg (${adultFood["desc"]})`;
     const html = `<div class="option">
-    <img src="/Pictures/${adultFood['brand']}.jpg" alt="">
+    <img src="/Pictures/${adultFood["brand"]}.jpg" alt="">
     <div class="text">${text}</div>
   </div>`;
     $("#adultFoodsOptions").append(html);
@@ -190,7 +190,7 @@ function calculate() {
 }
 
 function showSummary() {
-    $("#secondDisplay h3").text(`Expense Summary - ${choiceDog['breed']} ${choiceDog['maturity']}`);
+  $("#secondDisplay h3 p").text(` ${choiceDog["maturity"]} ${choiceDog["breed"]} (${choiceDog["age"]} months old) `);
   if (choiceDog["maturity"] === "puppy") {
     // First Year Section
     $("#expenseSummary").append(`<h4>First Year:</h4>`);
@@ -222,9 +222,7 @@ function showSummary() {
 
 // BUTTON CLICK
 $("#primaryBtn").click(function () {
-
   dogAge = $("#dogAge").val();
-
 
   if (activeDisplay === 1) {
     // FIRST DISPLAY
@@ -279,10 +277,10 @@ $("#primaryBtn").click(function () {
     $(this).val("CALCULATE AGAIN");
     calculate();
     showDisplay(2);
-
   } else if (activeDisplay == 2) {
     // SECOND DISPLAY
     $("#firstDisplay").trigger("reset");
+    $(".custom-price").prop("disabled", true);
     $("#puppyFoodsWrapper .overlay").show().removeClass("half");
     $("#adultFoodsWrapper .overlay").show().removeClass("half");
     $("#expenseSummary").text("");
@@ -332,8 +330,10 @@ $("#firstDisplay").on("change", function () {
   // CUSTOM OVERLAY
   $(".select").each(function () {
     if ($(this).val() == "Custom price") {
+      $(this).parent().siblings(".custom-price").prop("disabled", false);
       $(this).parent().siblings(".overlay").hide().removeClass("half");
     } else if (maturity != "undefined") {
+      $(this).parent().siblings(".custom-price").prop("disabled", true);
       // $(this).siblings(".overlay").show().addClass("half");
     }
   });
