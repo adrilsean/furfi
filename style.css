@@ -256,3 +256,12 @@ i.fa-times {
   font-size: 20px;
   color: #ac7640;
 }
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+  #container {
+    margin: 0 auto; /* Center the container horizontally */
+    scale: 90%;
+    padding: 15px;
+  }
+}
