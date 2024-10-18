@@ -27,8 +27,8 @@ body {
 
 /* Container */
 #container {
-  width: 450px;
-  height: 470px;
+  width: 480px;
+  height: 450px;
   padding: 15px 30px;
   padding-bottom: 30px;
   background-color: #f7f1e3; /* Light background for contrast */
@@ -88,7 +88,7 @@ h1 {
   color: #4b3b2c; /* Stronger brown for title */
   border-radius: 10px 10px 0px 0px;
   padding: 5px;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
 }
 
@@ -102,7 +102,7 @@ h1 {
 
 #secondDisplay h4 {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   color: #4b3b2c; /* Strong brown for emphasis */
   margin-bottom: -2px;
 }
@@ -195,7 +195,7 @@ input[type="number"],
   padding: 8px 10px;
   border: 1px solid #ccc;
   border-radius: 10px;
-  font-size: 14px;
+  font-size: 16px;
   display: block;
   background-color: #fff; /* Clean input background */
 }
@@ -239,7 +239,7 @@ input,
 .error-prompt {
   padding-left: 5px;
   padding-top: 4px;
-  font-size: 10px;
+  font-size: 12px;
   color: red;
   position: absolute;
   visibility: hidden;
@@ -266,7 +266,7 @@ input,
 
 .overlay.half {
   border-radius: 0px 10px 10px 0px;
-  width: 47.25%;
+  width: 46.7%;
   right: 0;
 }
 

@@ -190,6 +190,7 @@ function calculate() {
 }
 
 function showSummary() {
+    $("#secondDisplay h3").text(`Expense Summary - ${choiceDog['breed']} ${choiceDog['maturity']}`);
   if (choiceDog["maturity"] === "puppy") {
     // First Year Section
     $("#expenseSummary").append(`<h4>First Year:</h4>`);
