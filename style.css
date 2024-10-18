@@ -69,7 +69,6 @@ h1 {
 #secondDisplay {
   background-color: #faf3e6; /* Softer cream background */
   box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 5px;
-  border: #dfba85 1px solid; /* Rich, warm border */
   height: 100%;
   border-radius: 10px;
   display: flex;
