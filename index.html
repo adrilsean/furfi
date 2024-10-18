@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="container">
+        <i class="fa fa-times"></i>
+
+        <div class="display"  id="firstDisplay">
+            <h1>FurFinance</h1>
+            <div class="fields">
+                <label for="dog-breeds">Dog's breed:</label>
+                <select name="dog-breeds" id="dogBreeds">
+                    <option value="" disabled selected>Choose an option</option>
+                </select>
+                <label for="dog-age">Dog's age in months:</label>
+                <input type="number" name="dog-age" id="dogAge" placeholder="Enter your dog's age in months">
+                <span  class="error-prompt" id="ageError">Please enter age in months between 2 and 360</span>
+            </div>
+            <input type="button"   class="primary-button" value="NEXT">
+        </div>
+        <div class="display"  id="secondDisplay">
+            <h1>FurFinance</h1>
+            <div class="fields">
+
+                <div id="puppyFoodWrapper">
+                    <label for="puppy-food">Puppy dog food:</label>
+                    <select name="puppy-food" class="dropdown-food" id="puppyFoods">
+                                <option value="" disabled selected>Choose an option</option>
+                    </select>
+                    <div class="custom-price-wrapper">
+                        <label for="custom-price">Custom price/kg for puppy dog food:</label>
+                        <input type="number" name="custom-price" id="puppyCustomPrice" placeholder="Enter your custom price per kilogram">    
+                        <span  class="error-prompt" id="puppyError"></span>
+                    </div>
+                   
+                </div>
+
+                <div id="adultFoodWrapper">
+                    <label for="adult-food">Adult dog food:</label>
+                    <select name="adult-food" class="dropdown-food" id="adultFoods">
+                        <option value="" disabled selected>Choose an option</option>
+                    </select>
+                    <div class="custom-price-wrapper">
+                         <label for="custom-price">Custom price/kg for adult dog food:</label>
+                         <input type="number" name="custom-price" id="adultCustomPrice" placeholder="Enter your custom price per kilogram">
+                         <span  class="error-prompt" id="adultError"></span>
+                    </div>
+                  
+                </div>
+             
+            </div>
+            <input type="button"   class="primary-button" value="NEXT">
+        </div>
+        <div class="display"  id="thirdDisplay">
+            <h1>FurFinance</h1>
+            <div id="expenseSummary">
+            </div>
+            <input type="button"   class="primary-button" value="CALCULATE AGAIN">
+
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
