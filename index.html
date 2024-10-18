@@ -16,16 +16,17 @@
         <h1>FurFinance</h1>
         <p>Your Pup’s Personalized Budget Buddy</p>
       </div>
-      <form class="display" id="firstDisplay">
+      <form class="display" id="firstDisplay" autocomplete="off">
         <div class="field-line">
           <div class="field" id="breed">
             <label for="dog-breeds">Dog's breed:</label>
-            <select name="dog-breeds" id="dogBreeds">
-              <option value="" disabled selected>Choose a breed</option>
-            </select>
+            <input type="text" name="dog-breeds" class="select" id="dogBreeds" placeholder="Choose a breed" />
+            <i class="fa fa-chevron-down"></i>
+            <div class="options" id="dogBreedsOptions"></div>
           </div>
           <div class="field" id="age">
             <label for="dog-age">Dog's age in months:</label>
+
             <input type="number" name="dog-age" id="dogAge" placeholder="Enter age in months" />
             <span class="error-prompt" id="ageError">Enter number between 2 and 360</span>
           </div>
@@ -33,21 +34,24 @@
 
         <div class="field-line food">
           <label for="puppy-food">Puppy dog food (brand or custom price):</label>
-          <div class="field">
-            <select name="puppy-food" class="dropdown-food" id="puppyFoods">
-              <option value="" disabled selected>Choose a brand</option>
-            </select>
+          <div class="field" id="puppyFoodsWrapper">
+            <div class="brand-wrapper">
+              <input type="text" name="puppy-food" class="select" id="puppyFoods" placeholder="Choose a breed" />
+              <i class="fa fa-chevron-down"></i>
+              <div class="options" id="puppyFoodsOptions"></div>
+            </div>
             <input type="number" name="custom-price" id="puppyCustomPrice" placeholder="Enter custom price/kg" />
             <div class="overlay"></div>
           </div>
         </div>
-
         <div class="field-line food">
           <label for="adult-food">Adult dog food (brand or custom price):</label>
-          <div class="field">
-            <select name="adult-food" class="dropdown-food" id="adultFoods">
-              <option value="" disabled selected>Choose a brand</option>
-            </select>
+          <div class="field" id="adultFoodsWrapper">
+            <div class="brand-wrapper">
+              <input type="text" name="adult-food" class="select" id="adultFoods" placeholder="Choose a breed" />
+              <i class="fa fa-chevron-down"></i>
+              <div class="options" id="adultFoodsOptions"></div>
+            </div>
             <input type="number" name="custom-price" id="adultCustomPrice" placeholder="Enter custom price/kg" />
             <div class="overlay"></div>
           </div>
@@ -58,7 +62,7 @@
         <h3>EXPENSE SUMMARY</h3>
         <div id="expenseSummary"></div>
       </div>
-      <input type="button" class="primary-button" value="CALCULATE" id="primaryBtn"/>
+      <input type="button" class="primary-button" value="CALCULATE" id="primaryBtn" />
     </div>
     <script src="script.js"></script>
   </body>

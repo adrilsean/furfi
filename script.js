@@ -27,7 +27,7 @@ const foods = {
     { brand: "Pedigree", price: 606, desc: "High Quality" },
     { brand: "Aozi", price: 330, desc: "Organic" },
     { brand: "Vitality", price: 210, desc: "Premium" },
-    { brand: "Goodboy ", price: 72, desc: "Low Price" },
+    { brand: "Goodboy", price: 72, desc: "Low Price" },
     { brand: "Nutri Chunks", price: 360, desc: "Mid Price" },
     { brand: "Royal Canin", price: 600, desc: "For small dogs" },
     { brand: "TopBreed", price: 80, desc: "Low Price" },
@@ -36,7 +36,7 @@ const foods = {
     { brand: "Pedigree", price: 706, desc: "High Quality" },
     { brand: "Aozi", price: 370, desc: "Organic" },
     { brand: "Vitality", price: 245, desc: "Premium" },
-    { brand: "Goodboy ", price: 93, desc: "Low Price" },
+    { brand: "Goodboy", price: 93, desc: "Low Price" },
     { brand: "Nutri Chunks", price: 381, desc: "Mid Price" },
     { brand: "Royal Canin", price: 730, desc: "For small dogs" },
     { brand: "TopBreed", price: 85, desc: "Low Price" },
@@ -64,30 +64,59 @@ const foodAmount = {
 $(document).ready(() => {
   // Populate the dog breeds dropdown
   dogs.forEach((dog) => {
-    let html = `<option value="${dog["breed"]}">${dog["breed"]}</option>`;
-    $("#dogBreeds").append(html);
+    const html = `<div class="option">
+                <img src="/Pictures/${dog["breed"]}.jpg" alt="">
+                <div class="text">${dog["breed"]}</div>
+              </div>`;
+    $("#dogBreedsOptions").append(html);
   });
 
   // Populate the puppy dog foods
   foods["puppy"].forEach((puppyFood) => {
     const text = `${puppyFood["brand"]} ₱${puppyFood["price"]}/kg (${puppyFood["desc"]})`;
-    const html = `<option value="${puppyFood["brand"]}">${text}</option>`;
-    $("#puppyFoods").append(html);
+    const html = `<div class="option">
+    <img src="/Pictures/${puppyFood["brand"]}.jpg" alt="">
+    <div class="text">${text}</div>
+    </div>`;
+    $("#puppyFoodsOptions").append(html);
   });
-  $("#puppyFoods").append(`<option value="Custom">Custom</option>`);
+  $("#puppyFoodsOptions").append(`<div class="option">
+    <img src="/Pictures/Peso.jpg" alt="">
+    <div class="text">Custom price</div>
+    </div>`);
 
   // Populate the adult dog foods
   foods["adult"].forEach((adultFood) => {
     const text = `${adultFood["brand"]} ₱${adultFood["price"]}/kg (${adultFood["desc"]})`;
-    const html = `<option value="${adultFood["brand"]}">${text}</option>`;
-    $("#adultFoods").append(html);
+    const html = `<div class="option">
+    <img src="/Pictures/${adultFood['brand']}.jpg" alt="">
+    <div class="text">${text}</div>
+  </div>`;
+    $("#adultFoodsOptions").append(html);
   });
-  $("#adultFoods").append(`<option value="Custom">Custom</option>`);
+  $("#adultFoodsOptions").append(`<div class="option">
+  <img src="/Pictures/Peso.jpg" alt="">
+  <div class="text">Custom price</div>
+  </div>`);
 
   // $(".custom-price-wrapper").hide()
 
   // Hide second and third displays initially``
   $("#secondDisplay").hide();
+
+  $(".option").on("mousedown touchstart", function () {
+    const text = $(this).text().trim();
+    $(this).parent().siblings(".select").val(text);
+    $("#firstDisplay").trigger("change");
+  });
+
+  $(".select").on("focus", function () {
+    $(this).siblings(".options").addClass("visible");
+  });
+
+  $(".select").on("blur", function () {
+    $(this).siblings(".options").removeClass("visible");
+  });
 });
 
 let choiceDog, breed, dogAge, maturity, size, puppyFoodChoice, adultFoodChoice;
@@ -161,27 +190,26 @@ function calculate() {
 }
 
 function showSummary() {
-
   if (choiceDog["maturity"] === "puppy") {
     // First Year Section
-    $("#expenseSummary").append(`<span><h4>First Year:</h4></span>`);
-    $("#expenseSummary").append(`<span>${getDailyFood(choiceDog["size"], "puppy")}</span>`);
-    $("#expenseSummary").append(`<span>Total: <strong>${fy}</strong></span>`);
+    $("#expenseSummary").append(`<h4>First Year:</h4>`);
+    $("#expenseSummary").append(`<p>&#x2022; ${getDailyFood(choiceDog["size"], "puppy")}</p>`);
+    $("#expenseSummary").append(`<p>&#x2022; Total: <span>${fy}</span></p>`);
 
     // Preceding Years Section
     $("#expenseSummary").append(`<br>`);
-    $("#expenseSummary").append(`<span><h4>Preceding Years:</h4></span>`);
-    $("#expenseSummary").append(`<span>${getDailyFood(choiceDog["size"], "adult")}</span>`);
-    $("#expenseSummary").append(`<span><strong>${daily}</strong> per day</span>`);
-    $("#expenseSummary").append(`<span><strong>${monthly}</strong> per month</span>`);
-    $("#expenseSummary").append(`<span><strong>${yearly}</strong> per year</span>`);
+    $("#expenseSummary").append(`<h4>Preceding Years:</h4>`);
+    $("#expenseSummary").append(`<p>&#x2022; ${getDailyFood(choiceDog["size"], "adult")}</p>`);
+    $("#expenseSummary").append(`<p>&#x2022<span> ${daily}</span> per day</p>`);
+    $("#expenseSummary").append(`<p>&#x2022<span> ${monthly}</span> per month</p>`);
+    $("#expenseSummary").append(`<p>&#x2022<span> ${yearly}</span> per year</p>`);
   } else {
     // Adult or Senior Section
-    $("#expenseSummary").append(`<span><h4>Daily, Monthly, Yearly:</h4></span>`);
-    $("#expenseSummary").append(`<span>  ${getDailyFood(choiceDog["size"], choiceDog["maturity"])}</span>`);
-    $("#expenseSummary").append(`<span><strong>${daily}</strong> per day</span>`);
-    $("#expenseSummary").append(`<span><strong>${monthly}</strong> per month</span>`);
-    $("#expenseSummary").append(`<span><strong>${yearly}</strong> per year</span>`);
+    $("#expenseSummary").append(`<h4>Daily, Monthly, Yearly:</h4>`);
+    $("#expenseSummary").append(`<p>&#x2022; ${getDailyFood(choiceDog["size"], choiceDog["maturity"])}</p>`);
+    $("#expenseSummary").append(`<p>&#x2022<span> ${daily}</span> per day</p>`);
+    $("#expenseSummary").append(`<p>&#x2022<span> ${monthly}</span> per month</p>`);
+    $("#expenseSummary").append(`<p>&#x2022<span> ${yearly}</span> per year</p>`);
   }
 
   function getDailyFood(size, maturity) {
@@ -193,6 +221,10 @@ function showSummary() {
 
 // BUTTON CLICK
 $("#primaryBtn").click(function () {
+
+  dogAge = $("#dogAge").val();
+
+
   if (activeDisplay === 1) {
     // FIRST DISPLAY
     // AGE VALIDATION
@@ -216,7 +248,7 @@ $("#primaryBtn").click(function () {
     let adultCustomPrice = $("#adultCustomPrice").val();
 
     if (choiceDog["maturity"] == "puppy") {
-      if (puppyFoodChoice == "Custom") {
+      if (puppyFoodChoice == "Custom price") {
         // MAKE CUSTOM PUPPY FOOD OBJECT
         puppyFoodChoice = { brand: "Custom", price: puppyCustomPrice, desc: "" };
       } else {
@@ -230,7 +262,7 @@ $("#primaryBtn").click(function () {
       }
     }
 
-    if (adultFoodChoice == "Custom") {
+    if (adultFoodChoice == "Custom price") {
       // MAKE CUSTOM adult FOOD OBJECT
       adultFoodChoice = { brand: "Custom", price: adultCustomPrice, desc: "" };
     } else {
@@ -246,11 +278,12 @@ $("#primaryBtn").click(function () {
     $(this).val("CALCULATE AGAIN");
     calculate();
     showDisplay(2);
+
   } else if (activeDisplay == 2) {
     // SECOND DISPLAY
-    $("#firstDisplay").trigger("reset")
-    $("#puppyFoods").siblings(".overlay").show().removeClass("half");
-    $("#adultFoods").siblings(".overlay").show().removeClass("half");
+    $("#firstDisplay").trigger("reset");
+    $("#puppyFoodsWrapper .overlay").show().removeClass("half");
+    $("#adultFoodsWrapper .overlay").show().removeClass("half");
     $("#expenseSummary").text("");
 
     $(this).val("CALCULATE");
@@ -285,20 +318,20 @@ $("#firstDisplay").on("change", function () {
 
   // DOG FOOD SELECTION DISABLING
   if (maturity == "puppy") {
-    $("#puppyFoods").siblings(".overlay").show().addClass("half");
-    $("#adultFoods").siblings(".overlay").show().addClass("half");
+    $("#puppyFoodsWrapper .overlay").show().addClass("half");
+    $("#adultFoodsWrapper .overlay").show().addClass("half");
   } else if (maturity == "adult" || maturity == "senior") {
-    $("#puppyFoods").siblings(".overlay").show().removeClass('half');
-    $("#adultFoods").siblings(".overlay").show().addClass("half");
+    $("#puppyFoodsWrapper .overlay").show().removeClass("half");
+    $("#adultFoodsWrapper .overlay").show().addClass("half");
   } else {
-    $("#puppyFoods").siblings(".overlay").show().removeClass("half");
-    $("#adultFoods").siblings(".overlay").show().removeClass("half");
+    $("#puppyFoodsWrapper .overlay").show().removeClass("half");
+    $("#adultFoodsWrapper .overlay").show().removeClass("half");
   }
 
   // CUSTOM OVERLAY
-  $(".dropdown-food").each(function () {
-    if ($(this).val() == "Custom") {
-      $(this).siblings(".overlay").hide().removeClass("half");
+  $(".select").each(function () {
+    if ($(this).val() == "Custom price") {
+      $(this).parent().siblings(".overlay").hide().removeClass("half");
     } else if (maturity != "undefined") {
       // $(this).siblings(".overlay").show().addClass("half");
     }
@@ -309,7 +342,7 @@ $("#firstDisplay").on("change", function () {
     $("#dogAge").removeClass("error-input");
     $("#ageError").removeClass("visible");
   } else {
-    $("#puppyFoods").siblings(".overlay").show().removeClass("half");
-    $("#adultFoods").siblings(".overlay").show().removeClass("half");
+    $("#puppyFoodsWrapper .overlay").show().removeClass("half");
+    $("#adultFoodsWrapper .overlay").show().removeClass("half");
   }
 });
