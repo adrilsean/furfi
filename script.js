@@ -99,8 +99,6 @@ $(document).ready(() => {
   <div class="text">Custom price</div>
   </div>`);
 
-  // $(".custom-price-wrapper").hide()
-
   // Hide second and third displays initially``
   $("#secondDisplay").hide();
   // $("#firstDisplay").hide();
@@ -119,8 +117,6 @@ $(document).ready(() => {
     $(this).siblings(".options").removeClass("visible");
   });
 });
-
-
 
 let choiceDog, breed, dogAge, maturity, size, puppyFoodChoice, adultFoodChoice;
 let daily, monthly, yearly, fy;
@@ -149,6 +145,7 @@ function calculate() {
   } else {
     // ADULT / SENIOR
     calculateAfy(choiceDog["maturity"]);
+    fy = `₱0 - ₱0`;
   }
 
   // CALCULATE FIRST YEAR
@@ -193,7 +190,7 @@ function calculate() {
 }
 
 function showSummary() {
-  $("#secondDisplay img").attr("src", `/Pictures/${choiceDog['breed']}.jpg`);
+  $("#secondDisplay img").attr("src", `/Pictures/${choiceDog["breed"]}.jpg`);
   $("#secondDisplay h3 p").text(` ${choiceDog["breed"]} (${choiceDog["age"]} months old) `);
   if (choiceDog["maturity"] === "puppy") {
     // First Year Section
@@ -226,63 +223,57 @@ function showSummary() {
 
 // BUTTON CLICK
 $("#primaryBtn").click(function () {
-  dogAge = $("#dogAge").val();
-
   if (activeDisplay === 1) {
-    // FIRST DISPLAY
-    // AGE VALIDATION
-    if (dogAge == "" || dogAge <= 2 || dogAge >= 360) {
-      $("#ageError").addClass("visible");
-      $("#dogAge").addClass("error-input");
-      return;
-    } else {
-      $("#ageError").removeClass("visible");
-      $("#dogAge").removeClass("error-input");
+    // FIRST DISPLAY - CALCULATE BUTTON
+    $("#dogAge").trigger("blur");
 
-      dogAge = parseInt(dogAge);
-    }
+    if (choiceDog && dogAge) {
+      choiceDog = { ...choiceDog, maturity: maturity, age: dogAge, age: dogAge, adultAge: adultAge };
+      puppyFoodChoice = $("#puppyFoods").val();
+      adultFoodChoice = $("#adultFoods").val();
+      let puppyCustomPrice = $("#puppyCustomPrice").val();
+      let adultCustomPrice = $("#adultCustomPrice").val();
 
-    // COMPLETE DOG CHARACTERISTICS
-    choiceDog = { ...choiceDog, maturity: maturity, age: dogAge, age: dogAge, adultAge: adultAge };
+      if (choiceDog["maturity"] == "puppy") {
+        if (puppyFoodChoice == "Custom price") {
+          // MAKE CUSTOM PUPPY FOOD OBJECT
+          puppyFoodChoice = { brand: "Custom", price: puppyCustomPrice, desc: "" };
+        } else {
+          // GET PUPPY FOOD OBJECT
+          for (let puppyFood of foods["puppy"]) {
+            if (puppyFoodChoice.includes(puppyFood["brand"])) {
+              puppyFoodChoice = puppyFood;
+              break; // Exit the loop when the condition is satisfied
+            }
+          }
+        }
+      }
 
-    puppyFoodChoice = $("#puppyFoods").val();
-    adultFoodChoice = $("#adultFoods").val();
-    let puppyCustomPrice = $("#puppyCustomPrice").val();
-    let adultCustomPrice = $("#adultCustomPrice").val();
-
-    if (choiceDog["maturity"] == "puppy") {
-      if (puppyFoodChoice == "Custom price") {
-        // MAKE CUSTOM PUPPY FOOD OBJECT
-        puppyFoodChoice = { brand: "Custom", price: puppyCustomPrice, desc: "" };
+      if (adultFoodChoice == "Custom price") {
+        // MAKE CUSTOM adult FOOD OBJECT
+        adultFoodChoice = { brand: "Custom", price: adultCustomPrice, desc: "" };
       } else {
-        // GET PUPPY FOOD OBJECT
-        for (let puppyFood of foods["puppy"]) {
-          if (puppyFoodChoice.includes(puppyFood["brand"])) {
-            puppyFoodChoice = puppyFood;
+        // GET ADULT FOOD OBJECT
+        for (let adultFood of foods["adult"]) {
+          if (adultFoodChoice.includes(adultFood["brand"])) {
+            adultFoodChoice = adultFood;
             break; // Exit the loop when the condition is satisfied
           }
         }
       }
-    }
 
-    if (adultFoodChoice == "Custom price") {
-      // MAKE CUSTOM adult FOOD OBJECT
-      adultFoodChoice = { brand: "Custom", price: adultCustomPrice, desc: "" };
-    } else {
-      // GET ADULT FOOD OBJECT
-      for (let adultFood of foods["adult"]) {
-        if (adultFoodChoice.includes(adultFood["brand"])) {
-          adultFoodChoice = adultFood;
-          break; // Exit the loop when the condition is satisfied
-        }
+      calculate();
+
+      if (!daily.includes("NaN") && !fy.includes("NaN")) {
+        $(this).val("CALCULATE AGAIN");
+        showDisplay(2);
+      } else {
+        alert("Please fill out all the required fields.");
       }
     }
-
-    $(this).val("CALCULATE AGAIN");
-    calculate();
-    showDisplay(2);
   } else if (activeDisplay == 2) {
-    // SECOND DISPLAY
+    // SECOND DISPLAY - CALCULATE AGAIN BUTTON
+    choiceDog = breed = dogAge = maturity = size = puppyFoodChoice = adultFoodChoice = daily = monthly = yearly = fy = undefined;
     $("#firstDisplay").trigger("reset");
     $(".custom-price").prop("disabled", true);
     $("#puppyFoodsWrapper .overlay").show().removeClass("half");
@@ -294,7 +285,7 @@ $("#primaryBtn").click(function () {
   }
 });
 
-$("#firstDisplay").on("change", function () {
+$("#firstDisplay").on("change keyup", function () {
   // GET BREED
   breed = $("#dogBreeds").val();
   dogs.forEach((dog) => {
@@ -303,51 +294,65 @@ $("#firstDisplay").on("change", function () {
     }
   });
 
+  // GET AGE - HANDLED BY AGEDOG INPUT FIELD ACTIVE LISTENING
+
+  if (dogAge && choiceDog) {
+    // GET SIZE, ADULT AGE, MATURITY
+    size = choiceDog["size"];
+    adultAge = ages["adult"][size];
+
+    // GET MATURITY
+
+    if (dogAge < ages["adult"][size]) {
+      maturity = "puppy";
+    } else if (dogAge >= ages["adult"][size]) {
+      maturity = "adult";
+    } else if (dogAge >= ages["senior"][size]) {
+      maturity = "senior";
+    }
+
+    console.log(maturity, dogAge);
+
+    // DOG FOOD SELECTION DISABLING
+    if (maturity == "puppy") {
+      $("#puppyFoodsWrapper .overlay").show().addClass("half");
+      $("#adultFoodsWrapper .overlay").show().addClass("half");
+    } else if (maturity == "adult" || maturity == "senior") {
+      $("#puppyFoodsWrapper .overlay").show().removeClass("half");
+      $("#adultFoodsWrapper .overlay").show().addClass("half");
+    }
+
+    // CUSTOM OVERLAY
+    $(".select").each(function () {
+      if ($(this).val() == "Custom price") {
+        $(this).parent().siblings(".custom-price").prop("disabled", false);
+        $(this).parent().siblings(".overlay").hide().removeClass("half");
+      } else if (maturity != "undefined") {
+        $(this).parent().siblings(".custom-price").prop("disabled", true);
+        // $(this).siblings(".overlay").show().addClass("half");
+      }
+    });
+  } else {
+    $("#puppyFoodsWrapper .overlay").show().removeClass("half");
+    $("#adultFoodsWrapper .overlay").show().removeClass("half");
+  }
+});
+
+// AGE VALIDATION
+$("#dogAge").on("blur keyup change", function () {
+  console.log("change");
   // GET AGE
   dogAge = $("#dogAge").val();
-
-  // GET MATURITY
-  if (dogAge < ages["adult"][size] && dogAge > 2) {
-    maturity = "puppy";
-  } else if (dogAge >= ages["adult"][size]) {
-    maturity = "adult";
-  } else if (dogAge >= ages["senior"][size]) {
-    maturity = "senior";
-  }
-
-  // GET SIZE, ADULT AGE, MATURITY
-  size = choiceDog["size"];
-  adultAge = ages["adult"][size];
-
-  // DOG FOOD SELECTION DISABLING
-  if (maturity == "puppy") {
-    $("#puppyFoodsWrapper .overlay").show().addClass("half");
-    $("#adultFoodsWrapper .overlay").show().addClass("half");
-  } else if (maturity == "adult" || maturity == "senior") {
-    $("#puppyFoodsWrapper .overlay").show().removeClass("half");
-    $("#adultFoodsWrapper .overlay").show().addClass("half");
-  } else {
-    $("#puppyFoodsWrapper .overlay").show().removeClass("half");
-    $("#adultFoodsWrapper .overlay").show().removeClass("half");
-  }
-
-  // CUSTOM OVERLAY
-  $(".select").each(function () {
-    if ($(this).val() == "Custom price") {
-      $(this).parent().siblings(".custom-price").prop("disabled", false);
-      $(this).parent().siblings(".overlay").hide().removeClass("half");
-    } else if (maturity != "undefined") {
-      $(this).parent().siblings(".custom-price").prop("disabled", true);
-      // $(this).siblings(".overlay").show().addClass("half");
-    }
-  });
-
+  console.log(dogAge);
   // AGE VALIDATION
-  if (dogAge < 360 && dogAge > 2) {
-    $("#dogAge").removeClass("error-input");
-    $("#ageError").removeClass("visible");
+  if (dogAge == "" || dogAge <= 2 || dogAge >= 360) {
+    $("#ageError").addClass("visible");
+    $("#dogAge").addClass("error-input");
+    dogAge = undefined;
+    return;
   } else {
-    $("#puppyFoodsWrapper .overlay").show().removeClass("half");
-    $("#adultFoodsWrapper .overlay").show().removeClass("half");
+    $("#ageError").removeClass("visible");
+    $("#dogAge").removeClass("error-input");
+    dogAge = parseInt(dogAge);
   }
 });
