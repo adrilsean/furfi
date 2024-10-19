@@ -28,10 +28,12 @@ body {
 /* Container */
 #container {
   width: 460px;
-  height: 480px;
+  height: 500px;
   padding: 15px 30px;
   padding-bottom: 30px;
-  background-color: #f7f1e3; /* Light background for contrast */
+  background-image: url(/Pictures/bg.jpg);
+  background-size:cover;
+  background-repeat: no-repeat;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   display: flex;
@@ -76,33 +78,45 @@ h1 {
   justify-content: space-between;
 }
 
-/* #secondDisplay * {
-  text-align: center;
-} */
-
-#secondDisplay h3 {
-  text-align: center;
+#secondDisplay #summaryHeader{
   width: 100%;
   align-self: flex-start;
   background-color: #dfba85; /* Rich, warm tone */
   color: #4b3b2c; /* Stronger brown for title */
   border-radius: 10px 10px 0px 0px;
   padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#secondDisplay img {
+  width: 45px;
+  height: 45px;
+  margin: 5px 10px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+#secondDisplay h3 {
+  text-align: left;
   font-size: 20px;
   font-weight: 700;
 }
 
 #secondDisplay h3 p {
-  margin-top: -5px;
+  margin-top: -2px;
   font-weight: 500;
   font-size: 16px;
   padding: 0;
 }
 
 #secondDisplay h3 p::first-letter {
- 
   text-transform: capitalize;
 }
+
+
 
 #secondDisplay #expenseSummary {
   padding: 10px 20px;

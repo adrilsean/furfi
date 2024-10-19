@@ -103,6 +103,7 @@ $(document).ready(() => {
 
   // Hide second and third displays initially``
   $("#secondDisplay").hide();
+  // $("#firstDisplay").hide();
 
   $(".option").on("mousedown touchstart", function () {
     const text = $(this).text().trim();
@@ -118,6 +119,8 @@ $(document).ready(() => {
     $(this).siblings(".options").removeClass("visible");
   });
 });
+
+
 
 let choiceDog, breed, dogAge, maturity, size, puppyFoodChoice, adultFoodChoice;
 let daily, monthly, yearly, fy;
@@ -190,7 +193,8 @@ function calculate() {
 }
 
 function showSummary() {
-  $("#secondDisplay h3 p").text(` ${choiceDog["breed"]} ${choiceDog["maturity"]}  (${choiceDog["age"]} months old) `);
+  $("#secondDisplay img").attr("src", `/Pictures/${choiceDog['breed']}.jpg`);
+  $("#secondDisplay h3 p").text(` ${choiceDog["breed"]} (${choiceDog["age"]} months old) `);
   if (choiceDog["maturity"] === "puppy") {
     // First Year Section
     $("#expenseSummary").append(`<h4>First Year:</h4>`);
