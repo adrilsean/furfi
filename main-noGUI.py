@@ -98,7 +98,7 @@ def get_daily_food(size, maturity):
 def input_age():
     age  = int_input("\nEnter an age between 2 and 360 months: ")  
         
-    if 2 <= age < 360:
+    if 2 < age < 360:
         return age
     else:
         print(f"Invalid age, please try again.\n")
